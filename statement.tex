@@ -160,7 +160,8 @@ SSH pour le consulter. Cela peut se faire facilement via la commande
 ci-dessous:
 
 \begin{minted}{bash}
-    ssh -J <user>@studssh.info.ucl.ac.be -L 127.0.0.1:8080:<ip>:80 root@<ip>
+    ssh -J <user>@studssh.info.ucl.ac.be \
+         -L 127.0.0.1:8080:127.0.0.1:80 root@<ip>
 \end{minted}
 Avec \texttt{<user>} votre nom d'utilisateur INGI et \texttt{<ip>} l'adresse IP
 de votre isntance mini-Internet.
@@ -187,7 +188,8 @@ obtienne une case verte pour tous les autres AS tournant sur votre instance.
 Lorsque la case est rouge, cela signifie les deux AS ne peuvent pas se joindre.
 Lorsque la case est orange, cela signifie que les deux AS peuvent se joindre,
 mais par un mauvais chemin, ce qui signifie que les politiques de routage
-interdomaine (BGP) sont mal configurées sur l'un des deux AS.
+interdomaine (BGP) sont mal configurées sur l'un des deux AS. Notez que la
+matrice peut prendre plus de dix minutes pour se mettre à jour complètement.
 
 
 \subsection{Connexions avec les autres AS}
