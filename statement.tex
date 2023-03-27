@@ -78,8 +78,8 @@ le projet, chacun de vos routeurs ne sera en pratique connecté qu'à un
 seul appareil auquel il fournira l'accès réseau.
 
 Vous utiliserez des outils standards pour configurer le réseau de votre
-AS: OSPF (link-state routing) pour le routage interne de votre AS et
-BGP pour le routage externe. La suite logicielle
+AS: OSPF (link-state routing)~\cite{rfc2328} pour le routage interne de votre AS et
+BGP~\cite{rfc4271} pour le routage externe. La suite logicielle
 FRRouting\footnote{\url{https://frrouting.org/}} permet de configurer
 et de gérer ces deux protocoles simultanément.
 
@@ -553,4 +553,5 @@ pour valider votre configuration eBGP et iBGP et la bonne application des
 politiques de routage interdomaine.
 
 \bibliographystyle{abbrv}
+\bibliography{bibliography.bib}
 \end{document}
