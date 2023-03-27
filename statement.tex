@@ -18,7 +18,7 @@
 \rfoot{\thepage} %
 \lhead{%
 	\large{Mini-Internet\space\myauthor\space-- Réseaux informatiques} \\
-	\small{Maxime Piraux, François Michel, Aurélien Buchet, Olivier Bonaventure}
+	\small{François Michel, Maxime Piraux, Aurélien Buchet, Olivier Bonaventure}
 }
 \chead{} %
 \rhead{%
@@ -28,7 +28,7 @@
 \pagestyle{fancy}
 
 \title{Mini-Internet: Gérer le routage d'un AS de A à Z.}
-\author{Maxime Piraux \and François Michel \and Aurélien Buchet \and Olivier Bonaventure}
+\author{François Michel \and Maxime Piraux \and Aurélien Buchet \and Olivier Bonaventure}
 %\date{}
 
 \begin{document}
@@ -39,7 +39,7 @@
 
 L'organisation dans laquelle vous travaillez vous demande
 de mettre en place un Autonomous System (AS) de transit.
-En tant qu'ingénieur réseau, votre rôle
+En tant que responsable du réseau, votre rôle
 de configurer entièrement le réseau de l'organisation.
 Vous êtes donc aux commandes d'un AS complet
 dont vous allez configurer les routeurs pour que les utilisateurs
@@ -114,7 +114,7 @@ appareils qui y sont connectés. Pour ce faire, vous pouvez utiliser
 l'exécutable \texttt{goto.sh} disponible sur votre AS.
 \texttt{./goto.sh <router-name>-router} vous connectera à l'interface
 du routeur, tandis que \texttt{./goto.sh <router-name>-host} vous
-connectera à l'interface de Linux de l'appareil utilisateur directement
+connectera à l'interface Linux de l'appareil utilisateur directement
 connecté au routeur indiqué.
 Par exemple, pour vous connecter au routeur \texttt{MILA}, il suffit
 de taper la commande suivante dans votre AS:
@@ -125,7 +125,13 @@ de taper la commande suivante dans votre AS:
 
 
 Vous arriverez alors sur l'invite de commande FRRouting qui vous
-permettra de configurer le routeur MILA. Pour se déconnecter du
+permettra de configurer le routeur MILA.
+Il vous faudra alors prendre connaissance des bases de l'interface
+en lignes de commandes de FRRouting. Les commandes nécessaires
+à la configuration de votre routeur sont décrites sur la documentation
+officielle de 
+mini-Internet\footnote{\url{https://gitlab.ethz.ch/nsg/public/comm-net-2022-routing-project/-/wikis/2.-Tutorial/2.5-Configuring-IP-routers/2.5.1-The-FRRouting-CLI}}.
+Pour se déconnecter du
 routeur, il suffit de taper la commande \texttt{exit}, ce qui vous
 ramènera dans l'interface principale de votre AS.
 Pour accéder à l'appareil utilisateur connecté au routeur MILA, il vous
@@ -135,9 +141,9 @@ suffira de taper la commande suivante dans votre AS:
     ./goto.sh MILA-host
 \end{minted}
 
-Vous arriverez alors sur l'invite de commande bash de l'appareil
+Vous arriverez alors sur l'invite de commande \texttt{bash} de l'appareil
 connecté, ce qui vous permettra de configurer les adresses et routes
-statiques de l'appareil poru qu'il utilise le routeur comme
+statiques de l'appareil pour qu'il utilise son routeur comme
 passerelle par défaut. A nouveau, pour se déconnecter de l'appareil,
 il suffit de taper la commande \texttt{exit} pour retourner sur
 l'interface principale de votre AS.
@@ -180,7 +186,7 @@ l'état de la connectivité entre deux AS. L'objectif est que votre AS
 obtienne une case verte pour tous les autres AS tournant sur votre instance.
 Lorsque la case est rouge, cela signifie les deux AS ne peuvent pas se joindre.
 Lorsque la case est orange, cela signifie que les deux AS peuvent se joindre,
-mais par un mauvais chemin, ce qui signifie que les polices de routage
+mais par un mauvais chemin, ce qui signifie que les politiques de routage
 interdomaine (BGP) sont mal configurées sur l'un des deux AS.
 
 
@@ -258,7 +264,7 @@ sera \texttt{X.105.0.1}.
 Le routeur possède aussi
 une interface \textit{loopback} nommée \texttt{lo}. Une interface loopback
 est une interface virtuelle qui permet d'assigner une unique adresse
-à toutes les interfaces du routeur, indépendamment des
+joignable via toutes les interfaces du routeur, indépendamment des
 sous-réseaux assignés à ces interfaces. Cela permet à tous les autres
 routeurs de le joindre en utilisant simplement l'adresse loopback.
 L'adresse loopback de chaque routeur est \texttt{X.[150+Y].0.1}.
@@ -272,9 +278,9 @@ loopback sera donc \texttt{X.155.0.1}.
 L'objectif du projet est de configurer entièrement le réseau de votre AS.
 Cette configuration se déroule en 4 parties. Tout d'abord, l'assignation
 manuelle des adresses IPs et des sous-réseaux sur les différentes interfaces
-de vos routeurs. Ensuite, la configuration manuelle de l'adresse IP de la
+de vos routeurs. Ensuite, la configuration manuelle de l'adresse IP et de la
 route par défaut sur sur les appareils connectés à vos routeurs pour qu'ils
-envoient correctement leurs paquets réseau à leur routeur.
+envoient correctement leurs paquets à leur routeur.
 Ensuite vient la configuration automatique du routage intradomaine
 en utilisant le protocole à état de liaison OSPF, qui permettra aux routeurs
 de découvrir la topologie du réseau et de construire automatiquement
@@ -282,7 +288,7 @@ les tables de routage. L'interface de FRRouting permet de configurer
 facilement OSPF. Finalement, la configuration automatique du routage
 interdomaine se fera avec BGP, également via l'interface FRRouting.
 Cette section explique pas-à-pas les différentes étapes de configuration
-du projet.
+du projet. Nous vous conseillons de les suivre dans l'ordre.
 
 \subsection{Adresses IPs et sous-réseaux des routeurs}
 
@@ -369,8 +375,8 @@ La dernière étape consiste à établir un lien avec les autres AS
 de l'Internet: il faut donc établir des sessions eBGP avec tous vos
 Customers, Providers, votre Peer et l'IXP auquel vous êtes connecté.
 Il faut ensuite établir des sessions iBGP en mode full-mesh avec 
-tous les routeurs du réseau pour que chaque routeurs prennent connaissances
-des routes obtenues sur eBGP. Chaque routeur maintiendra donc
+tous les routeurs du réseau pour que chaque routeur prenne connaissance
+des routes obtenues via eBGP. Chaque routeur maintiendra donc
 7 sessions iBGP. Les sessions iBGP se font avec les adresse loopback
 des routeurs, ce qui leur permet de communiquer via n'importe quelle
 interface réseau.
@@ -385,7 +391,7 @@ Prenons l'exemple du routeur \texttt{MUNI}. Ce routeur doit
 établir une session eBGP avec le Provider 1 (dans cet exemple,
 imaginons que Provider 1 ait l'AS numéro 42 et que le routeur eBGP
 de Provider 1 s'appelle \texttt{ZURI} et ait l'IP 42.1.2.3).
-\texttt{MUNI} va dont établir une session eBGP avec le routeur
+\texttt{MUNI} va donc établir une session eBGP avec le routeur
 à l'adresse \texttt{42.1.2.3} sur son interface nommée
 \texttt{ext\_42\_ZURI}. Comme l'AS 42 est votre Provider, votre
 routeur va annoncer votre préfixe (\texttt{X.0.0.0/8}) ainsi que
@@ -412,7 +418,7 @@ qui distinguent une session iBGP d'une session eBGP en termes de cofiguration :
 \begin{itemize}
     \item Les deux routeurs de la session possèdent le même numéro d'AS
           (votre numéro d'AS).
-    \item La session s'établit sur les adresses loopback des routeurs
+    \item La session s'établit entre les adresses loopback des routeurs
           (cf le paramètre \texttt{update-source} de FRRouting).
     \item Les routeurs doivent se mettre en next-hop des routes qu'ils
           annoncent (cf le paramètre \texttt{next-hop-self} de FRRouting).
@@ -424,9 +430,48 @@ mini-Internet\footnote{\url{https://gitlab.ethz.ch/nsg/public/comm-net-2022-rout
 
 
 \subsubsection{Écrire les fitres d'import et d'export avec FRRouting}
+
+\begin{figure}
+    \begin{minted}[frame=single,framesep=2mm,
+        baselinestretch=0.8,]{bash}
+        $ # création de la route-map PROVIDER_IN (filtre d'import)
+        $ # on accepte toutes les routes
+        $ route-map PROVIDER_IN permit 10
+        $ # on attribue la local pref d'un provider (50)
+        $ set local-preference 50
+        $ exit
+    
+        $ # création de la route-map PROVIDER_OUT
+        $ # on n'exporte pas les routes des providers:
+        $ route-map PROVIDER_OUT deny 10
+        $ # deny si le local pref vaut 50
+        $ match local-preference 50
+        $ exit
+        
+        $ # on n'exporte pas les routes des shared-costs:
+        $ # sera exécuté après le seqnum 10
+        $ route-map PROVIDER_OUT deny 20
+        $ # deny si le local pref vaut 100
+        $ match local-preference 100
+        $ exit
+    
+        $ # on exporte toutes les routes qui ont passé les
+        $ # deux premiers filtres
+        $ # sera exécuté après le seqnum 20
+        $ route-map PROVIDER_OUT permit 30
+        $ exit
+    
+        $ # on assigne la règle PROVIDER_IN en filtre d'import
+        $ neighbor 42.1.2.3 route-map PROVIDER_IN in
+        $ # on assigne la règle PROVIDER_OUT en filtre d'export
+        $ neighbor 42.1.2.3 route-map PROVIDER_OUT out
+    \end{minted}
+    \caption{Configuration des filtres eBGP avec le peer \texttt{42.1.2.3}}
+    \label{fig:bgp-filters}
+    \end{figure}
 La documentation de mini-Internet est incomplète sur la manière dont fonctionnent
 les filtres d'import et d'export de BGP dans FRRouting. Cette section
-explique leur fonctionnement en plus de détails.
+explique leur fonctionnement plus en détails.
 
 Les filtres BGP sont représentés dans FRRouting sous le terme
 \textit{route-map}. Vous pouvez définir de nouvelles route-maps
@@ -454,43 +499,55 @@ règle \texttt{permit} dans vos route-maps. Prenons l'exemple du routeur
 de configuration des filtres d'import et d'export du routeur \texttt{MUNI}
 s'il est pairé avec le routeur \texttt{42.1.2.3} de son fournisseur, l'AS 42.
 
-\begin{figure}
-\begin{minted}[frame=single,framesep=2mm,
-    baselinestretch=0.8,]{bash}
-    $ # création de la route-map PROVIDER_IN (filtre d'import)
-    $ # on accepte toutes les routes
-    $ route-map PROVIDER_IN permit 10
-    $ # on attribue la local pref d'un provider (50)
-    $ set local-preference 50
-    $ exit
 
-    $ # création de la route-map PROVIDER_OUT
-    $ # on n'exporte pas les routes des providers:
-    $ route-map PROVIDER_OUT deny 10
-    $ # deny si le local pref vaut 50
-    $ match local-preference 50
-    $ exit
-    
-    $ # on n'exporte pas les routes des shared-costs:
-    $ # sera exécuté après le seqnum 10
-    $ route-map PROVIDER_OUT deny 20
-    $ # deny si le local pref vaut 100
-    $ match local-preference 100
-    $ exit
+\subsubsection{Sauvegarder votre configuration}
 
-    $ # on exporte toutes les routes qui ont passé les
-    $ # deux premiers filtres
-    $ # sera exécuté après le seqnum 20
-    $ route-map PROVIDER_OUT permit 30
-    $ exit
+Mini-Internet étant un large système sur lequel se connectent des centaines,
+d'étudiants il est primordial de sauvegarder régulièrement votre configuration
+pour être résilient à de possibles pannes dues à des erreurs de configuration.
 
-    $ # on assigne la règle PROVIDER_IN en filtre d'import
-    $ neighbor 42.1.2.3 route-map PROVIDER_IN in
-    $ # on assigne la règle PROVIDER_OUT en filtre d'export
-    $ neighbor 42.1.2.3 route-map PROVIDER_OUT out
+Pour ce faire, il vous suffit de vous connecter à votre instance mini-Internet
+et d'exécuter la commande \texttt{./save\_configs.sh}. Ce script génèrera
+automatiquement un dossier nommé \texttt{configs\_<date>\_<heure>} ainsi
+qu'un fichier \texttt{zip} contenant ce même dossier.
+
+Il vous faudra ensuite télécharger ce fichier sur votre propre ordinateur avec
+la commande \texttt{scp} qui permet de faire une copie via SSH. Cela peut se faire
+via la commande suivante:
+
+
+\begin{minted}{bash}
+    scp -P <2000+X> root@<ip>:~/configs_<date>_<heure>.zip .
 \end{minted}
-\caption{Configuration des filtres eBGP avec le peer \texttt{42.1.2.3}}
-\label{fig:bgp-filters}
-\end{figure}
+
+avec \texttt{X} votre numéro de groupe et \texttt{<ip>} l'adresse IP de votre
+instance mini-Internet.
+
+\section{Évaluation}
+
+L'évaluation de votre projet se fera sur base de votre configuration finale.
+Voici les critères qui attireront principalement notre attention:
+
+\begin{itemize}
+    \item Les hôtes attachés à chaque routeur peuvent tous se joindre,
+          et ce malgré une panne d'un des liens redondants du réseau.
+    \item Les hôtes possèdent la bonne adresse IP et la bonne passerelle par
+          défaut (la bonne adresse IP du routeur auquel ils sont attachés).
+    \item Les interfaces des routeurs sont assignées aux bons sous-réseaux.
+    \item L'interface loopback du routeur est correctement configurée.
+    \item Le routage intradomaine a bien été configuré sur chaque routeur
+          via OSPF et est résilient aux pannes des liens redondants.
+    \item Les sessions eBGP sont correctement configurées avec vos AS Customers,
+          Providers et shared-costs et les politiques de routage sont 
+          appliquées correctement.
+    \item iBGP est correctement configuré en full-mesh de sorte que les routes
+          reçues via eBGP soient bien accessible depuis n'importe quelle machine
+          (hôte ou routeur) à l'intérieur de votre réseau. 
+\end{itemize}
+
+La matrice de connectivité de mini-Internet vous sera d'une très grande utilité
+pour valider votre configuration eBGP et iBGP et la bonne application des
+politiques de routage interdomaine.
+
 \bibliographystyle{abbrv}
 \end{document}
