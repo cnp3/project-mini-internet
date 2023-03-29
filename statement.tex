@@ -161,8 +161,7 @@ SSH pour le consulter. Cela peut se faire facilement via la commande
 ci-dessous:
 
 \begin{minted}{bash}
-    ssh -J <user>@studssh.info.ucl.ac.be \
-         -L 127.0.0.1:8080:127.0.0.1:80 root@<ip> -p <port>
+    ssh -L 127.0.0.1:8080:<ip>:80 <user>@studssh.info.ucl.ac.be
 \end{minted}
 Avec \texttt{<user>} votre nom d'utilisateur INGI, \texttt{<ip>} l'adresse IP
 de votre instance mini-Internet, et \texttt{<port>} = \texttt{2000 + <as-number>}.
