@@ -113,15 +113,15 @@ le mot de passe que vous aurez reçu en privé.
 Une fois dans votre AS, vous avez accès à tous les routeurs et les
 appareils qui y sont connectés. Pour ce faire, vous pouvez utiliser
 l'exécutable \texttt{goto.sh} disponible sur votre AS.
-\texttt{./goto.sh <router-name>-router} vous connectera à l'interface
-du routeur, tandis que \texttt{./goto.sh <router-name>-host} vous
+\texttt{./goto.sh <router-name> router} vous connectera à l'interface
+du routeur, tandis que \texttt{./goto.sh <router-name> host} vous
 connectera à l'interface Linux de l'appareil utilisateur directement
 connecté au routeur indiqué.
 Par exemple, pour vous connecter au routeur \texttt{MILA}, il suffit
 de taper la commande suivante dans votre AS:
 
 \begin{minted}{bash}
-    ./goto.sh MILA-router
+    ./goto.sh MILA router
 \end{minted}
 
 
@@ -139,7 +139,7 @@ Pour accéder à l'appareil utilisateur connecté au routeur MILA, il vous
 suffira de taper la commande suivante dans votre AS:
 
 \begin{minted}{bash}
-    ./goto.sh MILA-host
+    ./goto.sh MILA host
 \end{minted}
 
 Vous arriverez alors sur l'invite de commande \texttt{bash} de l'appareil
@@ -162,10 +162,10 @@ ci-dessous:
 
 \begin{minted}{bash}
     ssh -J <user>@studssh.info.ucl.ac.be \
-         -L 127.0.0.1:8080:127.0.0.1:80 root@<ip>
+         -L 127.0.0.1:8080:127.0.0.1:80 root@<ip> -p <port>
 \end{minted}
-Avec \texttt{<user>} votre nom d'utilisateur INGI et \texttt{<ip>} l'adresse IP
-de votre isntance mini-Internet.
+Avec \texttt{<user>} votre nom d'utilisateur INGI, \texttt{<ip>} l'adresse IP
+de votre instance mini-Internet, et \texttt{<port>} = \texttt{2000 + <as-number>}.
 Après avoir exécuté cette commande, vous aurez directement accès au site web
 de votre instance mini-Internet depuis votre navigateur en vous connectant
 à \url{http://127.0.0.1:8080}, comme illustré par la
@@ -337,7 +337,7 @@ assigner l'adresse IP \texttt{X.105.0.1} dans le sous réseau
 \texttt{X.105.0.0/24} sur son interface \texttt{router}.
 Lorsque vous accédez à un appareil utilisateur dans votre AS
 (par exemple, l'hôte connecté à \texttt{MUNI} via
-\texttt{./goto.sh MUNI-host}), vous accédez au terminal
+\texttt{./goto.sh MUNI host}), vous accédez au terminal
 bash de l'appareil.
 Une adresse peut être assignée à une interface réseau en utilisant
 la commande \texttt{ip addr}.
