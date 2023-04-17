@@ -54,7 +54,7 @@ et serveurs de votre organisation puissent communiquer entre eux
 \end{figure}
 
 La Figure~\ref{fig:topo} illustre le réseau interne de votre organisation.
-Il comporte 8 routeurs dont quelques uns sont connectés avec d'autres AS
+Il comporte 8 routeurs dont quelques-uns sont connectés avec d'autres AS
 appartenant à d'autres organisations. Certains d'entre eux sont
 vos fournisseurs d'accès réseau (Provider): votre organisation
 les paye pour qu'ils vous garantissent un accès à Internet.
@@ -145,7 +145,7 @@ suffira de taper la commande suivante dans votre AS:
 Vous arriverez alors sur l'invite de commande \texttt{bash} de l'appareil
 connecté, ce qui vous permettra de configurer les adresses et routes
 statiques de l'appareil pour qu'il utilise son routeur comme
-passerelle par défaut. A nouveau, pour se déconnecter de l'appareil,
+passerelle par défaut. À nouveau, pour se déconnecter de l'appareil,
 il suffit de taper la commande \texttt{exit} pour retourner sur
 l'interface principale de votre AS.
 
@@ -205,7 +205,7 @@ matrice peut prendre plus de dix minutes pour se mettre à jour complètement.
 L'onglet \textit{connections} du site web vous indique avec quels AS vous
 devrez établir des sessions eBGP et le type de relation que vous entretenez
 avec cet AS (Provider, Customer ou Shared-Cost). La
-Figure~\ref{fig:as-connections-screenshot} montre un screenshot de l'onglet
+Figure~\ref{fig:as-connections-screenshot} montre une capture d'écran de l'onglet
 \texttt{connections} pour l'AS 42.
 
 \subsection{Debugguer BGP avec looking glass}
@@ -220,11 +220,11 @@ Figure~\ref{fig:as-connections-screenshot} montre un screenshot de l'onglet
 \end{figure}
 
 L'onglet \textit{looking glass} du site web résume l'état BGP de vos routeurs,
-indique leurs routes préférées et les local prefs appliquées.
+indique leurs routes préférées et les \textit{local prefs} appliquées.
 
 De plus, en bas de page, l'onglet liste les possibles erreurs de configuration
-BGP de votre AS. La Figure~\ref{fig:looking-glass-screenshot} montre un
-screenshot de l'onglet \textit{looking glass}.
+BGP de votre AS. La Figure~\ref{fig:looking-glass-screenshot} montre une capture
+d'écran de l'onglet \textit{looking glass}.
 
 
 \section{Plan d'adressage de votre AS}\label{sec:plan-adressage}
@@ -281,7 +281,7 @@ L'objectif du projet est de configurer entièrement le réseau de votre AS.
 Cette configuration se déroule en 4 parties. Tout d'abord, l'assignation
 manuelle des adresses IPs et des sous-réseaux sur les différentes interfaces
 de vos routeurs. Ensuite, la configuration manuelle de l'adresse IP et de la
-route par défaut sur sur les appareils connectés à vos routeurs pour qu'ils
+route par défaut sur les appareils connectés à vos routeurs pour qu'ils
 envoient correctement leurs paquets à leur routeur.
 Ensuite vient la configuration automatique du routage intradomaine
 en utilisant le protocole à état de liaison OSPF, qui permettra aux routeurs
@@ -322,7 +322,7 @@ mini-Internet
 .
 \subsection{Routes statiques sur les appareils connectés}
 
-Habituellement, les appareils utilisateurs connectées à un réseau
+Habituellement, les appareils utilisateurs connectés à un réseau
 IPv4 reçoivent une adresse et passerelle par défaut automatiquement
 grâce à l'utilisation du protocole DHCP. Pour simplifier le projet,
 les hôtes connectés aux routeurs seront configurés manuellement
@@ -330,7 +330,7 @@ sans DHCP.
 
 \paragraph*{Sous-réseau et adresse IP} 
 Chaque appareil utilisateur mini-Internet devra
-être configuré pour assigner son sous-réseau et son adressse IP.
+être configuré pour assigner son sous-réseau et son adresse IP.
 Par exemple, l'appareil connecté au routeur \texttt{MUNI} se verra
 assigner l'adresse IP \texttt{X.105.0.1} dans le sous réseau
 \texttt{X.105.0.0/24} sur son interface \texttt{router}.
@@ -379,12 +379,12 @@ Customers, Providers, votre Peer et l'IXP auquel vous êtes connecté.
 Il faut ensuite établir des sessions iBGP en mode full-mesh avec 
 tous les routeurs du réseau pour que chaque routeur prenne connaissance
 des routes obtenues via eBGP. Chaque routeur maintiendra donc
-7 sessions iBGP. Les sessions iBGP se font avec les adresse loopback
+7 sessions iBGP. Les sessions iBGP se font avec les adresses loopback
 des routeurs, ce qui leur permet de communiquer via n'importe quelle
 interface réseau.
 
 Il faut correctement configurer vos filtres d'import en appliquant
-des local-prefs correspondant à l'AS auquel le routeur est connecté.
+des \textit{local prefs} correspondant à l'AS auquel le routeur est connecté.
 Comme un routeur annonce l'attribut \texttt{LOCAL\_PREF} de ses routes
 sur ses sessions iBGP, cet attribut \texttt{LOCAL\_PREF} peut être
 facilement utilisé pour déterminer les filtres d'export également.
@@ -397,76 +397,76 @@ de Provider 1 s'appelle \texttt{ZURI} et ait l'IP 42.1.2.3).
 à l'adresse \texttt{42.1.2.3} sur son interface nommée
 \texttt{ext\_42\_ZURI}. Comme l'AS 42 est votre Provider, votre
 routeur va annoncer votre préfixe (\texttt{X.0.0.0/8}) ainsi que
-les préfixes apprtenant à vos clients. 
-Imaginons que l'on assigne la local pref 50 aux providers, 100 aux
+les préfixes appartenant à vos clients.
+Imaginons que l'on assigne la \textit{local pref} 50 aux providers, 100 aux
 shared-costs et 150 aux customers. Un filtre d'export qui ne laisserait
 passer que les routes des clients serait une chaîne de filtres en 3
 étapes:
 \begin{enumerate}
-    \item Refuser les routes aux local-pref égales à 50
-    \item Refuser les routes aux local-pref égales à 100
+    \item Refuser les routes aux \textit{local prefs} égales à 50
+    \item Refuser les routes aux \textit{local prefs} égales à 100
     \item Accepter toutes les routes\footnote{Il est nécessaire
     de terminer la chaine de filtres par une règle qui accepte
     toutes les routes car la politique par défaut de FRRouting est
-    de refuser totues les routes qui ne sont pas explicitement
+    de refuser toutes les routes qui ne sont pas explicitement
     acceptées.}
 \end{enumerate}
 
 Le routeur \texttt{MUNI} devra également établir une session iBGP
 avec les 7 autres routeurs. Une session iBGP n'est pas très différente
-d'une session eBGP en termes de confirugration. Voici trois points
-qui distinguent une session iBGP d'une session eBGP en termes de cofiguration :
+d'une session eBGP en termes de configuration. Voici trois points
+qui distinguent une session iBGP d'une session eBGP en termes de configuration :
 
 \begin{itemize}
     \item Les deux routeurs de la session possèdent le même numéro d'AS
           (votre numéro d'AS).
     \item La session s'établit entre les adresses loopback des routeurs
-          (cf le paramètre \texttt{update-source} de FRRouting).
+          (cf. le paramètre \texttt{update-source} de FRRouting).
     \item Les routeurs doivent se mettre en next-hop des routes qu'ils
-          annoncent (cf le paramètre \texttt{next-hop-self} de FRRouting).
+          annoncent (cf. le paramètre \texttt{next-hop-self} de FRRouting).
 \end{itemize}
 
-Un exemple de configuration de eBGP et iBGP sur FRRouting
+Un exemple de configuration d'eBGP et iBGP sur FRRouting
 est disponible dans la documentation de
 mini-Internet\footnote{\url{https://gitlab.ethz.ch/nsg/public/comm-net-2022-routing-project/-/wikis/2.-Tutorial/2.5-Configuring-IP-routers/2.5.5-Configure-BGP}}.
 
 
-\subsubsection{Écrire les fitres d'import et d'export avec FRRouting}
+\subsubsection{Écrire les filtres d'import et d'export avec FRRouting}
 
 \begin{figure}
     \begin{minted}[frame=single,framesep=2mm,
         baselinestretch=0.8,]{bash}
-        $ # création de la route-map PROVIDER_IN (filtre d'import)
-        $ # on accepte toutes les routes
-        $ route-map PROVIDER_IN permit 10
-        $ # on attribue la local pref d'un provider (50)
-        $ set local-preference 50
-        $ exit
-    
-        $ # création de la route-map PROVIDER_OUT
-        $ # on n'exporte pas les routes des providers:
-        $ route-map PROVIDER_OUT deny 10
-        $ # deny si le local pref vaut 50
-        $ match local-preference 50
-        $ exit
-        
-        $ # on n'exporte pas les routes des shared-costs:
-        $ # sera exécuté après le seqnum 10
-        $ route-map PROVIDER_OUT deny 20
-        $ # deny si le local pref vaut 100
-        $ match local-preference 100
-        $ exit
-    
-        $ # on exporte toutes les routes qui ont passé les
-        $ # deux premiers filtres
-        $ # sera exécuté après le seqnum 20
-        $ route-map PROVIDER_OUT permit 30
-        $ exit
-    
-        $ # on assigne la règle PROVIDER_IN en filtre d'import
-        $ neighbor 42.1.2.3 route-map PROVIDER_IN in
-        $ # on assigne la règle PROVIDER_OUT en filtre d'export
-        $ neighbor 42.1.2.3 route-map PROVIDER_OUT out
+$ # création de la route-map PROVIDER_IN (filtre d'import)
+$ # on accepte toutes les routes
+$ route-map PROVIDER_IN permit 10
+$ # on attribue la local pref d'un provider (50)
+$ set local-preference 50
+$ exit
+
+$ # création de la route-map PROVIDER_OUT
+$ # on n'exporte pas les routes des providers:
+$ route-map PROVIDER_OUT deny 10
+$ # deny si le local pref vaut 50
+$ match local-preference 50
+$ exit
+
+$ # on n'exporte pas les routes des shared-costs:
+$ # sera exécuté après le seqnum 10
+$ route-map PROVIDER_OUT deny 20
+$ # deny si le local pref vaut 100
+$ match local-preference 100
+$ exit
+
+$ # on exporte toutes les routes qui ont passé les
+$ # deux premiers filtres
+$ # sera exécuté après le seqnum 20
+$ route-map PROVIDER_OUT permit 30
+$ exit
+
+$ # on assigne la règle PROVIDER_IN en filtre d'import
+$ neighbor 42.1.2.3 route-map PROVIDER_IN in
+$ # on assigne la règle PROVIDER_OUT en filtre d'export
+$ neighbor 42.1.2.3 route-map PROVIDER_OUT out
     \end{minted}
     \caption{Configuration des filtres eBGP avec le peer \texttt{42.1.2.3}}
     \label{fig:bgp-filters}
@@ -483,7 +483,7 @@ configuration de BGP:
 
 \begin{minted}{bash}
     route-map <nom> {permit|deny} <seqnum>
-    <commandes-additionelles>
+    <commandes-additionnelles>
     exit
 \end{minted}
 \texttt{<name>} est le nom de votre route-map. Le mot clé \texttt{permit}
