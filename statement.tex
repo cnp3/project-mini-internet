@@ -8,6 +8,23 @@
 \usepackage[margin=3cm]{geometry} %
 \usepackage[pdftex,bookmarks]{hyperref}  
 
+\usepackage[most]{tcolorbox}
+
+%textmarker style from colorbox doc
+\tcbset{textmarker/.style={%
+		enhanced,
+		parbox=false,boxrule=0mm,boxsep=0mm,arc=0mm,
+		outer arc=0mm,left=6mm,right=3mm,top=7pt,bottom=7pt,
+		toptitle=1mm,bottomtitle=1mm,oversize}}
+
+% define new colorboxes
+\newtcolorbox{hintBox}{textmarker,
+	borderline west={6pt}{0pt}{yellow},
+	colback=yellow!10!white}
+
+\newcommand{\warning}[1]{\begin{hintBox} \textbf{Attention:} #1 \end{hintBox}}
+
+
 
 \def\mytitle{Analyse d'applications réseaux}\title{\mytitle}
 \def\mydate{Février 2023}\date{\mydate}
@@ -85,6 +102,10 @@ et de gérer ces deux protocoles simultanément.
 
 
 \section{Se connecter à votre AS}
+
+\warning{Ceci nécessite au préalable d'établir votre accès à distance à
+l'infrastructure INGI. Pour cela, utilisez la tâche INGInious prévu à cet effet:
+\url{https://inginious.info.ucl.ac.be/course/LINGI1341/ssh-key}.}
 
 Votre AS tourne dans une des 4 instances de mini-Internet. Il
 faut vous y connecter via \texttt{ssh} en passant par la passerelle
