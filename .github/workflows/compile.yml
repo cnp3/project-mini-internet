@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  compile:
+    name: Compile LaTeX document
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: xu-cheng/latex-action@v2
+        with:
+          root_file: statement.tex
+          latexmk_shell_escape: true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: statement.pdf
+          path: statement.pdf
