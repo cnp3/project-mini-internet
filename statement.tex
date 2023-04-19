@@ -22,7 +22,14 @@
 	borderline west={6pt}{0pt}{yellow},
 	colback=yellow!10!white}
 
+\newtcolorbox{infoBox}{textmarker,
+	borderline west={6pt}{0pt}{blue},
+	colback=blue!10!white}
+
+
 \newcommand{\warning}[1]{\begin{hintBox} \textbf{Attention:} #1 \end{hintBox}}
+
+\newcommand{\info}[1]{\begin{infoBox}  #1 \end{infoBox}}
 
 
 
@@ -45,7 +52,8 @@
 \pagestyle{fancy}
 
 \title{Mini-Internet: Gérer le routage d'un AS de A à Z.}
-\author{François Michel \and Maxime Piraux \and Aurélien Buchet \and Olivier Bonaventure}
+\author{François Michel \and Maxime Piraux \and Aurélien Buchet \and Olivier 
+Bonaventure}
 %\date{}
 
 \begin{document}
@@ -103,8 +111,12 @@ et de gérer ces deux protocoles simultanément.
 
 \section{Se connecter à votre AS}
 
+\info{Pour obtenir votre numéro d'AS et le mot de passe pour s'y connecter,
+utilisez la tâche INGInious prévue à cet effet:
+\url{https://inginious.info.ucl.ac.be/course/LINGI1341/mini-internet-access}.}
+
 \warning{Ceci nécessite au préalable d'établir votre accès à distance à
-l'infrastructure INGI. Pour cela, utilisez la tâche INGInious prévu à cet effet:
+l'infrastructure INGI. Pour cela, utilisez la tâche INGInious prévue à cet effet:
 \url{https://inginious.info.ucl.ac.be/course/LINGI1341/ssh-key}.}
 
 Votre AS tourne dans une des 4 instances de mini-Internet. Il
