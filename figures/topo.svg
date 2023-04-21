@@ -28,11 +28,11 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="1.4948513"
-     inkscape:cx="343.51243"
+     inkscape:cx="344.18139"
      inkscape:cy="753.25218"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1">
@@ -363,7 +363,7 @@
        id="text1291"><tspan
          sodipodi:role="line"
          id="tspan1289"
-         style="stroke-width:0.264583"></tspan></text>
+         style="stroke-width:0.264583" /></text>
     <text
        xml:space="preserve"
        style="font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
@@ -608,14 +608,14 @@
        xml:space="preserve"
        style="font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="-163.0574"
-       y="127.63351"
+       y="127.6335"
        id="text1486-3-5-8-6"
        transform="rotate(-91.182443)"><tspan
          sodipodi:role="line"
          id="tspan1484-7-9-9-1"
          style="stroke-width:0.264583"
          x="-163.0574"
-         y="127.63351">X.0.3.1/24</tspan></text>
+         y="127.6335">X.0.3.2/24</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
