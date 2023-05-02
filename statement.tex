@@ -552,7 +552,8 @@ via la commande suivante:
 
 
 \begin{minted}{bash}
-    scp -P <2000+X> root@<ip>:~/configs_<date>_<heure>.zip .
+    scp -O -J <user>@studssh.info.ucl.ac.be -P <2000+X> \
+        root@<ip>:~/configs_<date>_<heure>.zip .
 \end{minted}
 
 avec \texttt{X} votre numéro de groupe et \texttt{<ip>} l'adresse IP de votre
